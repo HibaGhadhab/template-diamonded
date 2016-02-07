@@ -1,0 +1,4 @@
+builds/*html
+builds/*odt
+tmp/*
+!tmp/.gitkeep

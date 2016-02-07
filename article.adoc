@@ -1,0 +1,27 @@
+= Titre article
+Prénom Nom
+:fonction: [Administrateur Systèmes Linux]
+:keywords: Asciidoc, Asciidoctor, GMLF, Rédaction
+:logos: Debian, Github
+:chapeau: Ceci est le chapeau \
+et présente votre article
+:short: Ceci est le résumé de l'article, \
+pour résumer en une ligne l'article.
+:hide-uri-scheme:
+:sectnums:
+:experimental:
+
+Ceci est l'introduction de votre article.
+
+== Première section
+
+Commençons par....
+
+=== Première sous-section
+
+:!sectnums:
+== Conclusion
+
+Ceci est la conclusion.
+
+== Références
