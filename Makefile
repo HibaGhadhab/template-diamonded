@@ -10,7 +10,8 @@ ODTFILES=$(FODTFILES:.fodt=.odt)
 
 all : clean $(FODTFILES) $(ODTFILES)
 
-guard:
+guard: clean html
+	xdg-open $(DIRDEST)/$(HTMLFILES)
 	bundle exec guard
 
 clean :
