@@ -11,17 +11,4 @@ pour résumer en une ligne l'article.
 :sectnums:
 :experimental:
 
-Ceci est l'introduction de votre article.
-
-== Première section
-
-Commençons par....
-
-=== Première sous-section
-
-:!sectnums:
-== Conclusion
-
-Ceci est la conclusion.
-
-== Références
+include::content.adoc[]

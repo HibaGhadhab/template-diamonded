@@ -1,31 +1,48 @@
 TPLDIR=~/dev/src/github.com/humboldtux/asciidoctor-diamonded
 DIRDEST=builds
-SRCFILES=article.adoc
+SRCFILE=article.adoc
 
-HTMLFILES=$(SRCFILES:.adoc=.html)
-FODTFILES=$(SRCFILES:.adoc=.fodt)
-ODTFILES=$(FODTFILES:.fodt=.odt)
+HTMLFILE=$(SRCFILE:.adoc=.html)
+FODTFILE=$(SRCFILE:.adoc=.fodt)
+ODTFILE=$(FODTFILE:.fodt=.odt)
+IMAGES=$(shell ls  *png)
 
-.PHONY : all clean html guard
+.PHONY: all clean default guard prebuild tgz
 
-all : clean $(FODTFILES) $(ODTFILES)
+default: fodt
+
+tgz: clean prebuild odt
+	tar czf $(DIRDEST)/article.tgz -C $(DIRDEST) $(ODTFILE) $(IMAGES)
+
+prebuild:
+	-cp -a $(IMAGES) $(DIRDEST)
 
 guard: clean html
-	xdg-open $(DIRDEST)/$(HTMLFILES)
+	xdg-open $(DIRDEST)/$(HTMLFILE)
 	bundle exec guard
 
-clean :
-	-rm $(DIRDEST)/*odt $(DIRDEST)/*html
+clean:
+	-rm $(DIRDEST)/*
 
-html: $(HTMLFILES)
+pdf:
+	bundle exec asciidoctor-pdf -D $(DIRDEST) article.adoc
 
-%.html: %.adoc
-	bundle exec asciidoctor --destination-dir $(DIRDEST) --attribute lang=fr --trace -T $(TPLDIR)/slim $<
+epub3:
+	bundle exec asciidoctor-epub3 -D $(DIRDEST) article.adoc
 
-%.fodt: %.adoc
-	bundle exec asciidoctor --destination-dir $(DIRDEST) --trace -T $(TPLDIR)/slim -b fodt $<
-	xmllint --format $(DIRDEST)/$@ > $(DIRDEST)/$@.tmp
-	mv $(DIRDEST)/$@.tmp $(DIRDEST)/$@
+epub3-kf8:
+	bundle exec asciidoctor-epub3 -a ebook-format=kf8 -D $(DIRDEST) article.adoc
 
-%.odt : %.fodt
-	soffice --headless --invisible --convert-to odt --outdir $(DIRDEST) $(DIRDEST)/$<
+ebooks: clean epub3 epub3-kf8 pdf
+
+html: prebuild
+	bundle exec asciidoctor -D $(DIRDEST) --attribute lang=fr --trace -T $(TPLDIR)/slim $(SRCFILE)
+
+fodt:
+	bundle exec asciidoctor -D $(DIRDEST) --trace -T $(TPLDIR)/slim -b fodt $(SRCFILE)
+	xmllint --format $(DIRDEST)/$(FODTFILE) > $(DIRDEST)/$(FODTFILE).tmp
+	mv $(DIRDEST)/$(FODTFILE).tmp $(DIRDEST)/$(FODTFILE)
+
+odt: fodt
+	soffice --headless --invisible --convert-to odt --outdir $(DIRDEST) $(DIRDEST)/$(FODTFILE)
+	-rm -f $(DIRDEST)/$(FODTFILE)

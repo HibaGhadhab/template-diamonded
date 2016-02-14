@@ -1,4 +1,4 @@
-builds/*html
-builds/*odt
+builds/*
+!builds/.gitkeep
 tmp/*
 !tmp/.gitkeep

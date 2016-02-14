@@ -7,6 +7,6 @@ guard 'shell' do
 end
 
 guard 'livereload' do
-  watch(%r{.+\.png})
+  watch(%r{builds/.+\.png})
   watch(%r{builds/.+\.html})
 end

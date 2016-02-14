@@ -1,0 +1,17 @@
+Ceci est l'introduction de votre article.
+
+== Première section
+
+Commençons par....
+
+=== Première sous-section
+
+.Une image
+image::template_diamonded_figure_01.png[]
+
+:!sectnums:
+== Conclusion
+
+Ceci est la conclusion.
+
+== Références

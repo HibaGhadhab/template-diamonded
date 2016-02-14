@@ -7,3 +7,9 @@ gem 'yajl-ruby'
 gem 'asciidoctor'
 gem 'slim'
 gem 'thread_safe'
+
+gem 'asciidoctor-epub3'
+gem 'asciidoctor-pdf'
+
+gem 'epubcheck'
+gem 'kindlegen'
