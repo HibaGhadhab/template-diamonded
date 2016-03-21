@@ -11,6 +11,8 @@ IMAGES=$(shell ls  *png)
 
 default: fodt
 
+all: clean odt ebooks
+
 tgz: clean prebuild odt
 	tar czf $(DIRDEST)/article.tgz -C $(DIRDEST) $(ODTFILE) $(IMAGES)
 
@@ -33,7 +35,7 @@ epub3:
 epub3-kf8:
 	bundle exec asciidoctor-epub3 -a ebook-format=kf8 -D $(DIRDEST) article.adoc
 
-ebooks: clean epub3 epub3-kf8 pdf
+ebooks: epub3 epub3-kf8 pdf
 
 html: prebuild
 	bundle exec asciidoctor -D $(DIRDEST) --attribute lang=fr --trace -T $(TPLDIR)/slim $(SRCFILE)
