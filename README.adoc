@@ -1,0 +1,554 @@
+= Utilisation du thème et template
+
+== Rappels utilisation des styles
+
+- code_par pour les noms de fichier et les commandes dans du texte
+- code_em pour faire ressortir du code dans une console ou un bout de programme.
+
+== Structure
+
+=== Structure d'un document Asciidoc
+
+Il existe plusieurs types de documents sous Asciidoc/Asciidoctor. Notre modèle pour générer
+un article utilise une structure classique Asciidoc:
+
+[source]
+----
+= Titre
+Nom Prénom
+:attribut1: valeur
+:attributN: valeur
+
+Ceci est le préambule
+
+== Section 1
+
+=== Sous Section 1
+
+Contenu sous section 1.
+
+== Section N
+
+Contenu section 2.
+----
+
+Un document Asciidoc commence toujours par un titre, qui est de niveau 0, et doit être préfixé
+d'un seul caractère *=*. Les lignes suivantes, tout de suite collées au titre, sont des méta-données du document. Elles ne sont pas rendues
+telles quelles dans le document final. La première ligne définit l'auteur (la syntaxe Asciidoc
+permet de définir d'autres informations sur l'auteur, mais elles ne sont pas utilisées par notre modèle, donc omises).
+
+Les lignes suivantes définissent des attributs de votre document sous la forme "*:nom: valeur*". La valeur peut être facultative,
+l'attribut est alors une sorte de booléen. Des attributs existent d'après la norme Asciidoc[tor]
+(comme un paramètre qui permet d'activer/désactiver la numérotation automatique des titres de sections).
+Vous pouvez également définir vos propres attributs qui serviront de variables.
+Nous verrons dans la suite les différents attributs utilisables pour notre thème.
+
+Vient ensuite le contenu de l'article. Celui-ci est constitué de sections, définies par des titres à l'aide de caractères *=*:
+La section de plus haut niveau est de niveau 1, il faut la préfixer par *==*; une sous-section est de niveau deux,
+on la préfixe par *===*; etc..
+
+Entre l'entête et les sections, un document Asciidoc peut avoir un préambule: le (mini-)paragraphe contenant `Ceci est le préambule` dans notre exemple.
+Dans la syntaxe Asciidoc, un préambule est facultatif. Dans notre modèle, pour correspondre aux différents formats attendus pour
+les différents articles, nous verrons que nous aurons toujours à définir un préambule.
+
+Voyons comment cette structure s'applique pour un article basé sur notre modèle.
+
+=== Début d'un article
+
+Votre article commencera par l'entête. On y trouvera les nécessaires et obligatoires titre et auteur.
+Le contenu de l'auteur sera utilisé pour la signature de l'article et lui sera automatiquement
+appliqué le style du même nom.
+
+De nombreux autres attributs sont à inclure dans l'entête pour la bonne utilisation de notre thème.
+
+==== Chapeau
+
+Le chapeau est défini avec l'attribut *:chapeau:*. Il est constitué d'un seul paragraphe.
+Si votre chapeau est long, que vous ne voulez pas le laisser sur une ligne dans votre
+fichier source pour des raisons de lisibilité, vous pouvez le définir sur plusieurs lignes, en
+préfixant chaque retour à la ligne par un espace suivi du signe *\*.
+
+==== fonction, mots-clés, logos et résumé
+
+Dans les attributs de l'entête, vous pouvez définir la fonction de l'auteur à utiliser
+dans la signature (attribut *:fonction:*), les mots-clés (*:keywords:*),
+les logos (*:logos:*) et le résumé (*:short:*). Suivant les formats d'articles,
+ces éléments sont obligatoires ou facultatifs:
+Si votre article ne les nécessite pas, il vous suffit de ne pas définir l'attribut associé
+comme méta-données dans l'entête de l'article.
+
+==== Introduction
+
+Certains formats d'article nécessitent une introduction. Pour la définir, vous la rédigez comme préambule Asciidoc: c'est-à-dire le texte,
+sur un seul ou plusieurs paragraphes, qui se trouve entre l'entête et la première section.
+
+Voilà pour débuter l'écriture d'un article, vous pouvez ensuite définir son contenu à l'aide des sections. Nous allons voir dans la
+partie suivante comment styliser votre contenu.
+
+== Formatage de texte
+
+=== Introduction
+
+Dans cette partie, nous allons présenter les différents styles à disposition pour générer un rendu suivant les styles attendus par la rédaction.
+
+Le style le plus général est le style `Normal` de paragraphe, et est automatiquement appliqué à un paragraphe
+par défaut si aucun style n'est appliqué.
+
+Pour définir un paragraphe, laissez une ligne vide entre deux blocs de texte
+(autrement dit, sautez deux lignes à la fin du premier paragraphe).
+Un seul retour à la ligne n'est pas pris en compte dans le rendu final.
+Un retour à la ligne est seulement utile
+dans votre fichier source pour éviter d'avoir des lignes très longues.
+
+Le style paragraphe est de type *bloc*. Nous verrons plus tard d'autres styles de type bloc,
+commençons dans cette partie par voir les styles de formatage de texte
+(nous verrons *code_em* plus loin lorsque nous aborderons les listings).
+
+=== Gras
+
+Pour mettre en *gras* un mot, vous l'entourez du caractère *:
+
+[source]
+----
+Pour mettre en *gras* un mot,...
+----
+
+=== code_par
+
+Pour appliquer le style `code_par` à un mot, vous devez l'entourer du caractère *`*:
+
+[source]
+----
+Pour appliquer le style `code_par` à un mot,...
+----
+
+=== Exposant
+
+Pour appliquer le style exposant, comme par exemple dans n^2^,
+vous devez entourer l'exposant du caractère *^*:
+
+[source]
+----
+Pour appliquer le style exposant, comme par exemple dans n^2^,...
+----
+
+=== Indice
+
+Pour appliquer le style de notation indice, comme par exemple dans H~2~O, on utilise des ~:
+
+[source]
+----
+Pour appliquer le style de notation indice, comme par exemple dans H~2~O,...
+----
+
+=== Italique
+
+Pour mettre en _italique_ un mot, vous l'entourez du caractère _ (souligné):
+
+[source]
+----
+Pour mettre en _italique_ un mot,...
+----
+
+=== Menu
+
+Pour styliser les menus, on utilise la macro *menu* d'Asciidoc. Cette macro est encore expérimentale, propre à
+Asciidoctor, elle ne fait pas partie de la syntaxe officielle à Asciidoc. Pour l'activer, il faut que vous ajoutiez l'attribut
+`experimental` (`:experimental:`) dans l'entête de votre document.
+
+La syntaxe est très précise pour cette macro. Par exemple, pour définir le menu simple menu:Fichier[] vous devez
+utiliser *+menu:Fichier[]+*. Pour générer le menu menu:Fichier[Nouveau], vous utiliserez *+menu:Fichier[Nouveau]+*.
+Vous pouvez voir que le style applique automatiquement le caractère *>* entre les éléments du menu. Pour définir des sous-menus
+supplémentaires, comme par exemple dans menu:Fichier[Nouveau > Document], vous utiliserez *+menu:Fichier[Nouveau > Document]+*,
+ainsi de suite pour des sous-sous-menus supplémentaires.
+
+=== URL
+
+Les URLs sont automatiquement traitées et le style `url` appliqué. Il vous suffit d'écrire l'URL telle quelle,
+comme par exemple *+https://www.exemple.fr+* ou *+ftp://ftp.exemple.fr+*, pour automatiquement appliquer
+le style et obtenir https://www.exemple.fr ou ftp://ftp.exemple.fr.
+
+=== Formater des caractères d'un mot
+
+Vous aurez peut-être à styliser des caractères d'un mot, et non le mot entier: pour les styles
+code_par, gras et italique, nous avons vu comment appliquer le style à la totalité d'un mot, pour appliquer
+le style seulement à une partie d'une chaîne de caractères, on double l'utilisation du caractère spécial
+à utiliser pour le style.
+
+Par exemple, pour obtenir le résultat "rendez-vous sur le site officiel**[X]**",
+ou "__anti__constitutionnellement", on utilisera
++"rendez-vous sur le site officiel**[X]**"+, respectivement +"__anti__constitutionnellement"+.
+
+== Blocs de texte
+
+Dans cette partie nous allons voir les différents styles que vous pouvez appliquer
+à tout un bloc de texte.
+
+Comme évoqué précédemment, le style `Normal` est le style par défaut d'un bloc texte, il est automatiquement appliqué à
+tout paragraphe auquel aucun style n'est appliqué.
+
+NOTE: // Début Avertissement //
+
+Vous devez obligatoirement laisser une ligne vide après un style de type bloc. Ce
+afin de le terminer, et de permettre de créer un nouveau bloc: si vous ne sautez pas de ligne,
+le rendu de votre document ne sera pas celui attendu.
+
+NOTE: // Fin Avertissement //
+
+=== Code
+
+Pour déclarer un bloc de code, et lui appliquer le style `Code`, vous devez déclarer un bloc Asciidoc de type
+`[source]`, encadré par un quadruple caractère -.
+
+Il vous faut déclarer dans les sources le bloc suivant:
+
+[source]
+....
+[source]
+----
+# Ceci est du code
+# Une entrée typique de menu.lst
+# Le style employé est "code"
+title= DEBIAN GNU/Linux 2.6.24 (hdc3 - ext3)
+kernel= (hd1,2)/boot/vmlinuz-2.6.24-1-686 root=/dev/hdc3 vga=extended
+initusrd (hd1,2)/boot/initrd.img-2.6.24-1-686
+----
+....
+
+=== Console
+
+Pour déclarer un listing de console, et lui appliquer le style `Console`,
+on utilise un bloc de type listing.
+
+Il vous faut donc le code suivant dans vos sources:
+
+[source]
+....
+[listing]
+----
+$ cat dma
+2: floppy
+3: parport0
+4: cascade
+----
+....
+
+Le nom du bloc *[listing]* peut être omis, ce qui veut dire que vos listings
+de session console peuvent être écrits simplement comme cela:
+
+[source]
+....
+----
+$ cat dma
+2: floppy
+3: parport0
+4: cascade
+----
+....
+
+=== code_em
+
+http://asciidoctor.org/docs/asciidoc-writers-guide/#delimited-blocks[Par défaut],
+les blocs de type *listing* et *source* utilisent verbatim le texte contenu:
+C'est-à-dire que aucun caractère spécial comme ceux vus en 2.X n'est interprété.
+Cela peut être utile car l'affichage du contenu d'une session et d'un listing ne doivent pas subir
+de formatage, mais cela empêche de pouvoir utiliser le style `code_em`.
+Il faut indiquer d'utiliser
+une substitution normale avec l'option `subs`. C'est-à-dire:
+
+[source]
+....
+[listing,subs="normal"]
+----
+$ cat dma
+2: floppy
+3: `parport0` # mise en évidence avec `code_em`
+4: cascade
+----
+....
+
+Un autre exemple, cette fois avec le style `code`:
+
+[source]
+....
+[source,subs="normal"]
+----
+01: # Une entrée typique de menu.lst
+02: title= DEBIAN GNU/Linux 2.6.24 (hdc3 - ext3)
+03: kernel= (hd1,2)/boot/vmlinuz-2.6.24-1-686 root=/dev/hdc3 `vga=extended`
+04: initrd (hd1,2)/boot/initrd.img-2.6.24-1-686
+----
+....
+
+À nouveau, dans le cas d'un bloc de style listing pour une session console,
+le nom du type de bloc peut-être omis:
+
+[source]
+....
+[subs="normal"]
+----
+$ cat dma
+2: floppy
+3: `parport0` # mise en évidence avec `code_em`
+4: cascade
+----
+....
+
+=== Légende
+
+Un bloc légende utilise un bloc Asciidoc `[quote]`.
+
+On utilise:
+
+[source]
+----
+[quote]
+Exemple d'écran de démarrage GRUB.
+Une légende peut être une simple phrase ou même la mention du numéro de figure.
+Cependant, pour certains articles, il peut s'agir de plusieurs paragraphes, d'où la nécessité d'utiliser le style "pragma".
+Le style utilisé pour une légende.... est "legende".
+----
+
+=== Note
+
+Pour appliquer le style `note` à un bloc de texte, on utilise à nouveau un bloc Asciidoc `quote`,
+mais avec le style `note` en paramètre.
+
+On utilise:
+
+[source]
+----
+[quote, note]
+Note notenote note notenote, note note note notenote. Bla notenote note notenote, note note note notenote.
+Bla notenote note notenote, note note note notenote. Bla notenote note notenote, note note note notenote.
+Bla notenote note notenote, note note note notenote. Bla notenote note notenote, note note note notenote.
+Bla notenote note notenote, note note note notenote. Bla notenote note notenote, note note note notenote.
+----
+
+=== Signature
+
+Pour la plupart des formats d'articles, la signature doit être en début d'article, dans l'entête.
+Nous avons déjà vu en 1.2 comment traiter ce cas.
+
+Néanmoins, certains modèles d'articles incluent une signature également en fin d'article.
+Pour traiter ce cas, vous pouvez utiliser un bloc `quote`, avec le style `signature`.
+
+Vous devrez donc utiliser:
+[source]
+----
+[quote, signature]
+Denis Bodor db@ed-diamond.com lefinnois@lefinnois.net
+
+[quote, signature]
+Rédacteur en chef de GLMF. Utilisateur GNU/Linux depuis 1994. Randonneur du jardin magique.
+----
+
+=== Pragma
+
+Pour créer une message de style `Pragma` on utilise le style Asciidoctor `NOTE`.
+Je sais, cela peut prêter à confusion, car cela ne correspond pas au style GLMF `note`
+précédent, mais le style `NOTE` est un style propre à Asciidoctor qui permet d'appliquer
+facilement un style à toute une ligne, ce qui est bien pratique dans ce cas.
+
+On utilise:
+
+[source]
+----
+NOTE: /// Début note PAO ///
+----
+
+=== Listes
+
+Pour déclarer une liste avec notre thème, il suffit de suivre la syntaxe Asciidoc: on saute
+une ligne pour chaque élément de la liste, et on préfixe chaque élément par un signe `-` ou `*`:
+
+[source]
+----
+* item 1;
+* item 2;
+* item 3;
+* etc.
+----
+
+N'oubliez de sauter une ligne après, mais aussi avant, votre liste.
+
+=== Table
+
+La syntaxe Asciidoc pour définir un tableau est un peu moins intuitive que pour les listes,
+car très puissante. Mais rien de bien compliqué, car les modèles d'articles préconisent
+d'utiliser des formats de tables simples.
+
+Ainsi, on déclare:
+
+[source]
+----
+|====
+| blabla | blabla | blabla
+| blabla | blabla | blabla
+|====
+----
+
+=== Images
+
+La syntaxe pour inclure des images nécessite deux lignes:
+
+- Une ligne de titre qui servira de légende,
+- Une ligne de déclaration de l'image avec son chemin de fichier.
+
+C'est-à-dire:
+
+[source]
+----
+.Exemple d'écran de démarrage GRUB. Une légende peut...
+image::nom_article_figure_01.png[]
+----
+
+Cette syntaxe vous force à donner une légende à vos images.
+Légende qui doit être contenue sur une ligne dans votre fichier source,
+ce qui peut s'avérer illisible si elle est longue.
+
+Mais cette syntaxe présente l'avantage d'ajouter une numérotation automatique
+*Figure X* en préfixe de la légende.
+
+Si cette syntaxe ne vous plaît guère, vous pouvez toujours créer manuellement
+le texte de style Pragma pour votre image avec un style Asciidoctor `NOTE` (cf. 3.7), et
+ajouter également une légende à la main (cf. 3.4).
+
+== Divers
+
+=== Commentaires
+
+Vous pouvez utiliser des commentaires si vous voulez ajouter des notes dans votre source,
+qui ne seront pas affichées dans le fichier final généré.
+
+Deux syntaxes existent. La syntaxe pour des commentaires sur une ligne:
+
+[source]
+----
+// Ceci est un commentaire sur une ligne.
+----
+
+Et le bloc de commentaires sur plusieurs lignes:
+
+[source]
+----
+////
+Ceci est un bloc de commentaires
+sur plusieurs lignes
+////
+----
+
+=== Inclusion
+
+Si votre article est long, et que vous voulez le découper en plusieurs fichiers sources,
+vous pourrez le faire avec la directive `include`:
+
+[source,subs="normal"]
+----
++++include::{sourcedir}/listings.adoc[]+++
+----
+
+Dans l'exemple précédent, vous voyez au passage que j'utilise la valeur de l'attribut
+`:sourcedir:`, défini dans les méta-données en entête du fichier source.
+
+Notez également que dans un fichier d'inclusion, tout chemin défini (à l'aide de `include`,
+ou `image`) sera relatif au fichier inclus qui appelle la directive, pas au fichier original
+d'inclusion de plus haut niveau.
+
+Vous pouvez faire des choses sympathiques avec les inclusions, que ce soit inclure du code source
+ou par exemple pour utiliser un fichier au format CSV comme données d'une table:
+
+[source]
+----
+[format="csv", options="header"]
+|===
+include::data.csv[]
+|===
+----
+
+=== Numérotation section
+
+Par défaut dans Asciidoctor, les sections et sous-sections ne sont pas numérotées. Si vous voulez activer
+la numérotation automatique, il vous suffit de rajouter l'attribut `:sectnums:` en entête.
+
+Sachez que vous pouvez activer (toujours avec `:sectnums:`) ou désactiver (avec `:!sectnums:`)
+à la volée la numérotation en incluant l'attribut au fil de votre document avant un titre
+de section. Par exemple, vous pouvez activer en entête la numérotation globalement, puis la
+désactiver au besoin pour des sections comme *Conclusion* ou *Références* en ajoutant `:!sectnums:`
+avant ces sections.
+
+=== Cas particulier du chapeau tout seul
+
+Tous les articles nécessitent un chapeau, mais certains articles (les recettes par exemples), ne doivent pas contenir d'introduction.
+Si vous essayez de rédiger un article de ce format en suivant les explications précédentes, c'est-à-dire en ne définissant aucun préambule Asciidoc
+pour ne pas avoir d'introduction, le rendu ne sera pas celui attendu.
+
+Pour gérer ce cas, on ne déclare pas de chapeau via un attribut *:chapeau:*, mais dans le préambule
+en définissant un bloc de texte `quote` de style `chapeau` avec `[quote, chapeau]`.
+
+=== Désactivation des styles
+
+Vous voudrez peut-être désactiver l'application d'un style, et afficher les caractères tels quels.
+Il y a différentes méthodes pour cela.
+
+==== Macro *pass*
+
+Vous pouvez utiliser la macro *pass* pour désactiver la substitution des styles.
+
+Par exemple, vous utiliserez pass:[pass:[*des mots en gras*]] dans vos sources
+pour afficher pass:[*des mots en gras*] au lieu de *des mots en gras*.
+
+==== Non substitution avec '+'
+
+Un raccourci de la macro pass est l'utilisation du caractère +:
+Pour désactiver la substitution d'une ligne vous l'encadrez par des pass:[+++].
+Pour désactiver la substitution d'une de chaîne de caractères, vous l'encadrez par un +.
+
+Pour reprendre l'exemple précédent, vous utiliserez pass:[+*des mots en gras*+] dans vos sources pour ne pas
+évaluer le style gras.
+
+==== Non substitution dans un bloc quote
+
+Nous avons vu les différentes utilisations du bloc quote pour générer différents styles:
+note, signature, chapeau et légende.
+
+À la différence des blocs listing et source, le bloc quote active la substitution par défaut.
+Si pour une raison x, vous désirez désactiver la substitution des styles dans un bloc quote,
+vous utiliserez encore l'option `subs`, vue pour les blocs source et listing pour code_em en 3.3,
+mais cette fois avec la valeur `verbatim`. Par exemple on pourra utiliser:
+
+[source]
+----
+[quote, subs="verbatim"]
+Le style *gras* ne sera pas appliqué.
+----
+
+==== Substitution dans un bloc source/listing
+
+En 3.3, pour code_em, nous avons vu comment activer la substitution pour tout le texte du bloc.
+Mais cela peut-être problématique, car pour pouvoir utiliser `code_em`, vous allez peut-être
+avoir d'autres substitutions de styles non désirées dans le reste de votre listing de session ou
+code source. Dans ce cas, il vaut mieux laisser par défaut le bloc en verbatim, et activer
+la substitution pour une chaîne de caractères en particulier.
+
+On pourra utiliser la syntaxe suivante:
+
+[source]
+....
+[listing,subs="macros"]
+----
+$ cat dma
+2: floppy
+3: pass:quotes[`parport0`] # mise en évidence avec `code_em`
+4: cascade
+----
+....
+
+:!sectnums:
+== Conclusion
+
+Ce thème est assez dogmatique dans ses choix, mais il a fallu que je privilégie des conventions
+strictes pour pouvoir supporter tous les modèles des différents magazines.
+
+Si vous avez un problème, une question, ou une amélioration, n'hésitez à participer sur
+https://github.com/humboldtux/asciidoctor-diamonded[le dépôt du projet].
