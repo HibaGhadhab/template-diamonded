@@ -5,7 +5,7 @@ SRCFILE=article.adoc
 HTMLFILE=$(SRCFILE:.adoc=.html)
 FODTFILE=$(SRCFILE:.adoc=.fodt)
 ODTFILE=$(FODTFILE:.fodt=.odt)
-IMAGES=$(shell ls  *png)
+IMAGES=$(shell ls *jpg *png)
 
 .PHONY: all clean default guard prebuild tgz
 
