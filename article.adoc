@@ -7,7 +7,6 @@ Prénom Nom
 et présente votre article
 :short: Ceci est le résumé de l'article, \
 pour résumer en une ligne l'article.
-:hide-uri-scheme:
 :sectnums:
 :experimental:
 
