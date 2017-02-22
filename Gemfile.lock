@@ -94,6 +94,7 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
+    rb-readline (0.5.3)
     ruby-rc4 (0.1.5)
     rubyzip (1.1.7)
     safe_yaml (1.0.4)
@@ -123,6 +124,10 @@ DEPENDENCIES
   guard-livereload
   guard-shell
   kindlegen
+  rb-readline
   slim
   thread_safe
   yajl-ruby
+
+BUNDLED WITH
+   1.12.5
